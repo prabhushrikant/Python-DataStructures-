@@ -1,5 +1,3 @@
-import BinaryTree
-
 def InOrderTraversal(root):
     if root:
         InOrderTraversal(root.left)
