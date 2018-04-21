@@ -1,3 +1,4 @@
+import re
 def reverse(a, k):
     n = len(a)
     for i in range(0, n, k):
@@ -47,14 +48,87 @@ def maxProfit(days):
     if profit > 0:
         print("("+str(b_index)+", "+str(s_index)+"), "),
 
+def retrieveMostFrequentlyUsedWords(literatureText, wordsToExclude):
+    # WRITE YOUR CODE HERE
+    # given_words = literatureText.split(' ')
+    given_words = re.split('\s|,|`|\'| |\.|', literatureText.strip())
+    # given_words = re.findall("(?i\b[a-z]+\b)",literatureText.strip())
+    word_map = {}
+    for w in given_words:
+        w_ = w.lower()
+        if w_ != '' and w_ not in wordsToExclude:
+            if w_ in word_map:
+                word_map[w_] += 1
+            else:
+                word_map[w_] = 1
+
+    #find maximum occuring words in map
+    max = -1
+    for key, value in word_map.items():
+        if value > max:
+            max = value
+
+    freq_words = []
+    for key, value in word_map.items():
+        if value == max:
+            freq_words.append(key)
+
+    return freq_words
+
+
+def sortList(mylist):
+    sorted_list = sorted(mylist)
+    return sorted_list
+
+def reorderLines(logFileSize, logfile):
+    # WRITE YOUR CODE HERE
+    id_map = {}
+    content_words = []
+    content_numbers = []
+    for log_line in logfile:
+        log_contents = log_line.split(' ')
+        id = log_contents[0]
+        content = log_contents[1:]
+        id_map[content] = id
+        if re.find('\d+',content):
+            content_numbers.append(content)
+        else:
+            content_words.append(content)
+
+    #sort the content_words lexicographically
+    content_words_sorted = sorted(content_words)
+
+    result = []
+    for sorted_line in content_words_sorted:
+        if sorted_line in id_map:
+            result_line = id_map[sorted_line] + " " + sorted_line
+            result.add(result_line)
+
+    for number_line in content_numbers:
+        if number_line in id_map:
+            result_line = id_map[number_line] + " " + number_line
+            result.add(result_line)
+
+    return result
+
 
 if __name__ == '__main__':
 
+    print "wow"
+
     # days = [100, 180, 260, 310, 40, 535, 695]
-    days = [100, 40, 20, 60, 90, 15, 300]
+    # days = [100, 40, 20, 60, 90, 15, 300]
     # days = [23, 13, 25, 29, 33, 19, 34, 45, 65, 67]
 
-    maxProfit(days)
+    # r = retrieveMostFrequentlyUsedWords("Rose is a flower red rose are flower", ["is", "are", "a"])
+    # r = retrieveMostFrequentlyUsedWords("Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.", ["and", "he", "the","to", "is"])
+
+    # r = sortList(["jog mid pet", "alps cow bar"])
+
+    # l = [["mi2","jog","mid","pet"]]
+    # r = reorderLines(1, l)
+    # print r
+    # maxProfit(days)
 
     # # print remove_dup("acaaabbbacdddd")
     #

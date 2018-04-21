@@ -5,6 +5,8 @@ roman_digits['V']=5
 roman_digits['X']=10
 roman_digits['L']=50
 roman_digits['C']=100
+roman_digits['D']=500
+roman_digits['M']=1000
 
 def roman_to_int(s):
     i = 0
@@ -49,5 +51,9 @@ if __name__ == '__main__':
     print roman_to_int(roman_number)
 
     roman_number = "XIX"
+    print "roman number : " + roman_number + " int value: ",
+    print roman_to_int(roman_number)
+
+    roman_number = "MCMXCVI"
     print "roman number : " + roman_number + " int value: ",
     print roman_to_int(roman_number)
