@@ -47,3 +47,6 @@ if __name__ == "__main__":
 
     print "tree height using DFS : " + str(getHeight_DFS(root, 0) + 1)
     print "tree height using BFS : " + str(getHeight_BFS(root))
+
+    print "BFS on tree to print nodes for each level on separate line"
+    getHeight_BFS(root)
