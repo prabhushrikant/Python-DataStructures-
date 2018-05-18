@@ -98,11 +98,11 @@ class BinaryTree:
         if not currRoot:
             return None
         else:
-            self.InorderTraversal(currRoot.left, inorder)
+            self.InorderTraversal(currRoot.left, inorder, printout)
             inorder.append(currRoot.data)
             if printout:
                 print currRoot.data,
-            self.InorderTraversal(currRoot.right, inorder)
+            self.InorderTraversal(currRoot.right, inorder, printout)
             return inorder
 
     def PreorderTraversal(self, currRoot, preorder, printout=False):
@@ -112,16 +112,16 @@ class BinaryTree:
             preorder.append(currRoot.data)
             if printout:
                 print currRoot.data,
-            self.PreorderTraversal(currRoot.left, preorder)
-            self.PreorderTraversal(currRoot.right, preorder)
+            self.PreorderTraversal(currRoot.left, preorder, printout)
+            self.PreorderTraversal(currRoot.right, preorder, printout)
             return preorder
 
     def PostorderTraversal(self, currRoot, postorder, printout=False):
         if not currRoot:
             return None
         else:
-            self.PostorderTraversal(currRoot.left, postorder)
-            self.PostorderTraversal(currRoot.right, postorder)
+            self.PostorderTraversal(currRoot.left, postorder, printout)
+            self.PostorderTraversal(currRoot.right, postorder, printout)
             postorder.append(currRoot.data)
             if printout:
                 print currRoot.data,

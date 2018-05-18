@@ -74,7 +74,7 @@ def create_tree_from_inorder_postorder(inorder, postorder):
     if idx < 0:
         return None
     else:
-        root = b_tree.Node(preorder[idx])
+        root = b_tree.Node(postorder[idx])
 
         # print "root: " + str(root.data)
         #find root in inorder (partition inorder around root)
@@ -145,8 +145,43 @@ def partition_postorder_full_tree(postorder, partitionValue, rootData):
 
     return left, right
 
+def partition_preorder_BST(preorder, partitionValue):
+
+    #find the first element higher than partitionValue
+    partitionIndex = 0
+    for nodeVal in preorder:
+        # partitioning at first node which matches partitionValue in input sequence
+        if(nodeVal == partitionValue):
+            break
+        else:
+            partitionIndex += 1
+
+    #search for first higher number than partition value in preorder
+    p_index = 0
+    i = partitionIndex+1
+    while i < len(preorder):
+        if preorder[i] > partitionValue:
+            p_index = i
+            break
+        else:
+            i += 1
+
+    print "p_index",
+    print str(p_index)
+
+    if i >= len(preorder):
+        left = preorder[partitionIndex+1:i]
+        right = None
+    else:
+        left = preorder[partitionIndex+1:i]
+        right = preorder[i:]
+
+    return left, right
+
+
 #Note: it's not possible to create unique tree from preorder and postorder,
-#Tree needs to have some other property such as Tree is either Full Binary Tree, or it's BST
+#Tree needs to have some other property such as Tree is either Full Binary Tree
+#if it's BST only preorder or only postorder is also sufficient.
 def create_BST_from_preorder_postorder(postorder, preorder):
     global idx
     if idx >= len(preorder):
@@ -216,7 +251,46 @@ def create_full_tree_from_preorder_postorder(postorder, preorder):
         return root
 
 
-#it's possible to create a tree from inorder and bfs ,
+#This is o(n^2) solution but there exists o(n) solution using (min,max) at each level
+#same technique used for isBST.
+def create_BST_from_preorder(preorder):
+    global idx
+
+    if idx >= len(preorder):
+        return None
+    else:
+
+        #in any preorder first element is the root that tree
+        #also it's guaranteed that preorder won't be empty since it's checked
+        #for in if-else below before making recursive call.
+        root = b_tree.Node(preorder[0])
+
+
+        #preorder is partitioned in such way that, all elements between current value
+        #and first higher value than current value are on left
+        #eg. preorder = [10, 5, 1, 7, 40, 50]
+        #when processing 10 , left = [5,1,7] and right=[40,50]
+        left, right = partition_preorder_BST(preorder, root.data)
+
+        print "left",
+        print left
+
+        print "right",
+        print right
+
+        if left:
+            root.left = create_BST_from_preorder(left)
+        else:
+            root.left = None
+
+        if right:
+            root.right = create_BST_from_preorder(right)
+        else:
+            root.right = None
+
+        return root
+
+#it's possible to create a tree from inorder and bfs,
 #search for root
 def create_tree_from_inorder_BFS(inorder, bfs):
 
@@ -282,6 +356,12 @@ postorder = [10,40,30,60,80,70,50]
 idx=len(postorder)-1
 root = create_tree_from_inorder_postorder(inorder, postorder)
 
+print "Building tree from inorder - postorder"
+inorder = [9,3,15,20,7]
+postorder = [9,15,7,20,3]
+idx=len(postorder)-1
+root = create_tree_from_inorder_postorder(inorder, postorder)
+
 inorder_traversal(root)
 print
 preorder_traversal(root)
@@ -337,6 +417,17 @@ inorder = [4,8,10,12,14,20,22]
 bfs = [20,8,22,4,12,10,14]
 idx=0
 root = create_tree_from_inorder_BFS(inorder,bfs)
+
+inorder_traversal(root)
+print
+preorder_traversal(root)
+print
+
+print "Building BST from preorder"
+# preorder = [5,1,3,2,7,9]
+preorder = [10, 5, 1, 7, 40, 50]
+# idx = 0
+root = create_BST_from_preorder(preorder)
 
 inorder_traversal(root)
 print

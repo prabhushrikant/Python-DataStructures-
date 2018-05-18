@@ -40,11 +40,80 @@ def find_grants_cap(grantsArray, newBudget):
     # print cap_final
     return cap_final
 
+def find_grants_cap_1(grantsArray, newBudget):
+
+    #first imagine all the people are affected.
+    no_affected = len(grantsArray)
+
+    curr_budget = 0
+    surplus = 0
+    avg = (newBudget - surplus)/no_affected
+
+    while curr_budget < newBudget:
+        curr_budget = 0
+        no_affected = len(grantsArray)
+        surplus = 0
+        for grant in grantsArray:
+            if grant < avg:
+                no_affected += -1
+                surplus += grant
+                curr_budget += grant
+            else:
+                curr_budget += avg
+        avg = (newBudget - surplus)/no_affected
+
+    if curr_budget == newBudget:
+        return avg
+    else:
+        return -1
+
+def award_cut():
+    # import java.io.*;
+    # import java.util.*;
+    #
+    # class Solution {
+    #
+    # static double findGrantsCap(double[] grantsArray, double newBudget) {
+    # // your code goes here
+    # if (grantsArray == null || grantsArray.length == 0 || newBudget < 0)
+    # {
+    # return -1;
+    # }
+    # int noImpacted = grantsArray.length;
+    # double cap = newBudget/noImpacted;
+    # while (noImpacted > 0 && cap*noImpacted + over <= newBudget)
+    #     {
+    #         double leftover = 0;
+    # double over =0;
+    # for (int i=0;i<grantsArray.length;i++)
+    # {
+    # if (grantsArray[i] <= cap)
+    # {
+    # leftover = leftover + grantsArray[i] - cap;
+    # noImpacted--;
+    # }
+    # else
+    # {
+    # over = over + grantsArray[i];
+    # }
+    # }
+    # cap = cap + leftover/noImpacted;
+    # }
+    # return cap;
+    pass
 
 if __name__ == '__main__':
+    grants = [2, 100, 50, 120, 1000]
+    new_budget = 190
+    print str(find_grants_cap_1(grants, new_budget))
+
     grants = [2, 100, 50, 120, 167]
     new_budget = 400
-    print str(find_grants_cap(grants, new_budget))
+    print str(find_grants_cap_1(grants, new_budget))
+
+    grants = [2, 100, 50, 132, 167]
+    new_budget = 400
+    print str(find_grants_cap_1(grants, new_budget))
 
     grants = [210,200,150,193,130,110,209,342,117]
     new_budget = 1530
