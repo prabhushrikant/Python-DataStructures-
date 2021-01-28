@@ -29,6 +29,9 @@ def findPlatforms(sorted_intervals):
     else:
         platforms = 0
         i = 0
+        # Note: just this logic of looking at end of the previous train won't cut it.
+        # we also need to see any of the previous trains has left the platform or not so we can use that platform for current train.
+        # e.g. if first train here leaves at 1000 then we only need 2 platforms but current logic will still give you the ans of 3
         while i < len(intervals)-1:
             if intervals[i+1].start < intervals[i].end:
                 platforms += 1
